@@ -2,27 +2,39 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using TMPro;
 
 public class BallCharacterController : MonoBehaviour
 {
     public float roll_speed = 5f;
+    private float currentSpeed;
     public bool isGrounded;
 
+    private Vector3 lastPosition;
     public Vector3 jumping_velocity;
     
     private Rigidbody rigidBodyBall;
+
+    public TextMeshProUGUI speedUI;
 
     // Start is called before the first frame update
     void Start()
     {
         rigidBodyBall = gameObject.GetComponent<Rigidbody>();
         isGrounded = false;
-        jumping_velocity = new Vector3(0f, 2000f, 0f);
+        jumping_velocity = new Vector3(0f, 1000f, 0f);
+
+        //lock cursor in camera view
+        Cursor.lockState = CursorLockMode.Locked;
+        Cursor.visible = false;
     }
 
     // Update is called once per frame
     void Update()
     {
+        //call speed control method
+        //SpeedControl();
+
         //Horizontal inputs
         if (Input.GetAxis("Horizontal") > 0)
         {
@@ -46,7 +58,7 @@ public class BallCharacterController : MonoBehaviour
         //Jump Input
         if (isGrounded == true && Input.GetKeyUp(KeyCode.Space))
         {
-            print("Attempting Jump!");
+            print("Jumping!!");
             rigidBodyBall.AddForce(jumping_velocity);
         }
 
@@ -54,7 +66,7 @@ public class BallCharacterController : MonoBehaviour
 
     private void OnCollisionEnter(Collision collision)
     {
-        if(collision.gameObject.name == "Ground")
+        if (collision.gameObject.tag == "Ground")
         {
             print("Ball is Grounded");
             isGrounded = true;
@@ -63,10 +75,19 @@ public class BallCharacterController : MonoBehaviour
 
     private void OnCollisionExit(Collision collision)
     {
-        if (collision.gameObject.name == "Ground")
+        if (collision.gameObject.tag == "Ground")
         {
-            print("Ball is NOT Grounded!");
+            print("Ball is Airborne!");
             isGrounded = false;
         }
     }
+
+    void FixedUpdate()
+    {
+        //Code to display ball's current speed to UI
+        currentSpeed = Vector3.Distance(lastPosition, transform.position) * 100f;
+        lastPosition = transform.position;
+        speedUI.text = currentSpeed.ToString("F0");
+    }
+
 }

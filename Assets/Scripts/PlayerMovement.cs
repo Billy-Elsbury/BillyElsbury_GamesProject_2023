@@ -1,11 +1,12 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using TMPro;
 
 public class PlayerMovement : MonoBehaviour
 {
     public float movementSpeed;
-
+    private float currentSpeed;
     public float groundDrag;
 
     public float jumpForce;
@@ -28,8 +29,11 @@ public class PlayerMovement : MonoBehaviour
     float verticalInput;
 
     Vector3 movementDirection;
+    private Vector3 lastPosition;
 
     Rigidbody rb;
+
+    public TextMeshProUGUI speedUI;
 
     // Start is called before the first frame update
     void Start()
@@ -47,7 +51,7 @@ public class PlayerMovement : MonoBehaviour
         KeyBoardInputs();
 
         //call speed controller method
-        SpeedControl();
+        //SpeedControl();
 
         //ground check on update
         //0.5f is half player height
@@ -58,6 +62,11 @@ public class PlayerMovement : MonoBehaviour
     private void FixedUpdate()
     {
         CharacterMovement();
+        
+        //Code to display ball's current speed to UI
+        currentSpeed = Vector3.Distance(lastPosition, transform.position) * 100f;
+        lastPosition = transform.position;
+        speedUI.text = currentSpeed.ToString("F0");
     }
 
     //Method for keyboard inputs
@@ -96,7 +105,7 @@ public class PlayerMovement : MonoBehaviour
 
     }
 
-    private void SpeedControl()
+    public void SpeedControl()
     {
         Vector3 flatVelocity = new Vector3(rb.velocity.x, rb.velocity.z);
 
@@ -121,4 +130,6 @@ public class PlayerMovement : MonoBehaviour
         readyToJump = true;
         print("Ready to Jump!");
     }
+
+
 }
