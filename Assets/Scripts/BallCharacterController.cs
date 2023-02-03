@@ -6,21 +6,21 @@ using TMPro;
 
 public class BallCharacterController : MonoBehaviour
 {
-    public float roll_speed = 5f;
+    public float movementSpeed = 5f;
     private float currentSpeed;
     public bool isGrounded;
 
     private Vector3 lastPosition;
     public Vector3 jumping_velocity;
     
-    private Rigidbody rigidBodyBall;
+    private Rigidbody rb;
 
     public TextMeshProUGUI speedUI;
 
     // Start is called before the first frame update
     void Start()
     {
-        rigidBodyBall = gameObject.GetComponent<Rigidbody>();
+        rb = gameObject.GetComponent<Rigidbody>();
         isGrounded = false;
         jumping_velocity = new Vector3(0f, 1000f, 0f);
 
@@ -38,28 +38,28 @@ public class BallCharacterController : MonoBehaviour
         //Horizontal inputs
         if (Input.GetAxis("Horizontal") > 0)
         {
-            rigidBodyBall.AddForce(Vector3.right * roll_speed);
+            rb.AddForce(Vector3.right * movementSpeed);
         }
         else if (Input.GetAxis("Horizontal") < 0)
         {
-            rigidBodyBall.AddForce(-Vector3.right * roll_speed);
+            rb.AddForce(-Vector3.right * movementSpeed);
         }
 
         //Vertical inputs
         if (Input.GetAxis("Vertical") > 0)
         {
-            rigidBodyBall.AddForce(Vector3.forward * roll_speed);
+            rb.AddForce(Vector3.forward * movementSpeed);
         }
         else if (Input.GetAxis("Vertical") < 0)
         {
-            rigidBodyBall.AddForce(-Vector3.forward * roll_speed);
+            rb.AddForce(-Vector3.forward * movementSpeed);
         }
 
         //Jump Input
         if (isGrounded == true && Input.GetKeyUp(KeyCode.Space))
         {
             print("Jumping!!");
-            rigidBodyBall.AddForce(jumping_velocity);
+            rb.AddForce(jumping_velocity);
         }
 
     }

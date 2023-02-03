@@ -6,7 +6,6 @@ public class CameraSettings : MonoBehaviour
 {
     [Header("References")]
     public Transform orientation;
-    public Transform player;
     public Transform playerCharacter;
     public Rigidbody playerRigidBody;
 
@@ -24,7 +23,7 @@ public class CameraSettings : MonoBehaviour
     void Update()
     {
        //Find out the player's forward
-       Vector3 viewDirection = player.position - new Vector3(transform.position.x, transform.position.y, transform.position.z);
+       Vector3 viewDirection = playerCharacter.position - new Vector3(transform.position.x, transform.position.y, transform.position.z);
        orientation.position = viewDirection.normalized;
 
         //Rotate player to view

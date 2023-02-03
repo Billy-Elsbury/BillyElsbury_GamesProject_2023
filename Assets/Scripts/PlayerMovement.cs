@@ -6,8 +6,8 @@ using TMPro;
 public class PlayerMovement : MonoBehaviour
 {
     public float movementSpeed;
-    private float currentSpeed;
     public float groundDrag;
+    private float currentSpeed;
 
     public float jumpForce;
     public float jumpCooldown;
@@ -51,7 +51,13 @@ public class PlayerMovement : MonoBehaviour
         KeyBoardInputs();
 
         //call speed controller method
-        //SpeedControl();
+        SpeedControl();
+
+        //handle drag
+        if (grounded)
+            rb.drag = groundDrag;
+
+        else rb.drag = 0;
 
         //ground check on update
         //0.5f is half player height
