@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
 
-public class PlayerMovement : MonoBehaviour
+public class OLDPlayerMovement : MonoBehaviour
 {
     public float movementSpeed;
     public float groundDrag;
