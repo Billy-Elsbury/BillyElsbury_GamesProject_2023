@@ -17,7 +17,7 @@ public class MoveCharacterScript : MonoBehaviour
     public bool isGrounded;
 
     private Vector3 lastPosition;
-    public Vector3 jumping_velocity;
+    public Vector3 gravityModifier;
 
     private Rigidbody currentRB, ballRB, characterRB;
 
@@ -28,12 +28,12 @@ public class MoveCharacterScript : MonoBehaviour
     {
         characterPawn.gameObject.SetActive(true);
         characterBall.gameObject.SetActive(false);
+
         currentRB = characterPawn.GetComponent<Rigidbody>();
         ballRB = characterBall.GetComponent<Rigidbody>();
         characterRB = characterPawn.GetComponent<Rigidbody>();
 
-        isGrounded = false;
-        jumping_velocity = new Vector3(0f, 1000f, 0f);
+        gravityModifier = new Vector3(0f, -1f, 0f);
         
         //lock cursor in camera view
         //Cursor.lockState = CursorLockMode.Locked;
@@ -45,6 +45,10 @@ public class MoveCharacterScript : MonoBehaviour
     {
         //call speed control method
         //SpeedControl();
+
+        //code to increase gravity for better feeling physics
+        currentRB.AddForce(gravityModifier * 2);
+        
 
         //Horizontal inputs
         if (Input.GetAxis("Horizontal") > 0)
@@ -65,14 +69,6 @@ public class MoveCharacterScript : MonoBehaviour
         {
             currentRB.AddForce(-Vector3.forward * movementSpeed);
         }
-
-        //Jump Input
-        if (isGrounded == true && Input.GetKeyUp(KeyCode.Space))
-        {
-            print("Jumping!!");
-            currentRB.AddForce(jumping_velocity);
-        }
-
 
         //Input to change between characters
         if(Input.GetKeyUp(KeyCode.C) && currentRB == characterRB)
@@ -97,6 +93,8 @@ public class MoveCharacterScript : MonoBehaviour
 
     }
 
+    //method to Copy the velocity from one character to the other when switching between them
+    //Based on code from: https://answers.unity.com/questions/1524258/transfer-velocity-from-one-object-to-another.html
     void CopyVelocity(Rigidbody from, Rigidbody to)
     {
         Vector3 vFrom = from.velocity;
@@ -144,27 +142,9 @@ public class MoveCharacterScript : MonoBehaviour
         }
     }
 
-    private void OnCollisionEnter(Collision collision)
-    {
-        if (collision.gameObject.tag == "Ground")
-        {
-            print("Ball is Grounded");
-            isGrounded = true;
-        }
-    }
-
-    private void OnCollisionExit(Collision collision)
-    {
-        if (collision.gameObject.tag == "Ground")
-        {
-            print("Ball is Airborne!");
-            isGrounded = false;
-        }
-    }
-
+    //Code to display ball's current speed to UI
     void FixedUpdate()
     {
-        //Code to display ball's current speed to UI
         currentSpeed = Vector3.Distance(lastPosition, transform.position) * 100f;
         lastPosition = transform.position;
         speedUI.text = currentSpeed.ToString("F0");

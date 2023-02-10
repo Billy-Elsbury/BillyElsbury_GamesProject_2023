@@ -719,6 +719,7 @@ GameObject:
   - component: {fileID: 1142825794}
   - component: {fileID: 1142825793}
   - component: {fileID: 1142825792}
+  - component: {fileID: 1142825797}
   m_Layer: 0
   m_Name: CharacterBall
   m_TagString: Untagged
@@ -820,6 +821,19 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 6
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1142825797
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1142825791}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6f95c08de884dcb4baa994bef304ea27, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  jumping_velocity: {x: 0, y: 0, z: 0}
 --- !u!1 &1147490827
 GameObject:
   m_ObjectHideFlags: 0
@@ -1345,6 +1359,7 @@ GameObject:
   - component: {fileID: 1670050521}
   - component: {fileID: 1670050520}
   - component: {fileID: 1670050519}
+  - component: {fileID: 1670050524}
   m_Layer: 0
   m_Name: PlayerCharacter
   m_TagString: Untagged
@@ -1447,6 +1462,18 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 7
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1670050524
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1670050518}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1ae0fe9762ce0954885dd72e60db25c8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1702329041
 GameObject:
   m_ObjectHideFlags: 0
@@ -1495,7 +1522,7 @@ MonoBehaviour:
   characterPawn: {fileID: 1670050518}
   movementSpeed: 5
   isGrounded: 0
-  jumping_velocity: {x: 0, y: 0, z: 0}
+  gravityModifier: {x: 0, y: 0, z: 0}
   speedUI: {fileID: 2073229144}
 --- !u!1 &2073229142
 GameObject:
