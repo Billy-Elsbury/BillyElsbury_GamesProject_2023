@@ -36,8 +36,8 @@ public class MoveCharacterScript : MonoBehaviour
         gravityModifier = new Vector3(0f, -1f, 0f);
         
         //lock cursor in camera view
-        //Cursor.lockState = CursorLockMode.Locked;
-        //Cursor.visible = false;
+        Cursor.lockState = CursorLockMode.Locked;
+        Cursor.visible = false;
     }
 
     // Update is called once per frame
@@ -53,43 +53,62 @@ public class MoveCharacterScript : MonoBehaviour
         //Horizontal inputs
         if (Input.GetAxis("Horizontal") > 0)
         {
-            currentRB.AddForce(Vector3.right * movementSpeed);
+            currentRB.AddForce(transform.right * movementSpeed);
         }
         else if (Input.GetAxis("Horizontal") < 0)
         {
-            currentRB.AddForce(-Vector3.right * movementSpeed);
+            currentRB.AddForce(-transform.right * movementSpeed);
         }
 
         //Vertical inputs
         if (Input.GetAxis("Vertical") > 0)
         {
-            currentRB.AddForce(Vector3.forward * movementSpeed);
+            currentRB.AddForce(transform.forward * movementSpeed);
         }
         else if (Input.GetAxis("Vertical") < 0)
         {
-            currentRB.AddForce(-Vector3.forward * movementSpeed);
+            currentRB.AddForce(-transform.forward * movementSpeed);
         }
 
         //Input to change between characters
-        if(Input.GetKeyUp(KeyCode.C) && currentRB == characterRB)
+        if(Input.GetKeyUp(KeyCode.C))
         {
-            characterSelected = 1;
+            if (characterSelected == 1)
+            {
+                SwitchCharacter();    
+            }
+            
+            else if (characterSelected == 2)
+            {
 
-            CopyVelocity(currentRB, ballRB);
-
-            SwitchCharacter();  
+                SwitchCharacter();
+            }         
         }
 
-        else if (Input.GetKeyUp(KeyCode.C) && currentRB == ballRB)
+        /*else if (Input.GetKeyUp(KeyCode.C) && currentRB == ballRB)
         {
             characterSelected = 2;
 
             CopyVelocity(currentRB, characterRB);
 
             SwitchCharacter();
-        }
+        }*/
 
         transform.position = currentRB.position;
+
+
+        //code to rotate character and camera should follow
+        float rotateHorizontal = -Input.GetAxis("Mouse X");
+        float rotateVertical = -Input.GetAxis("Mouse Y");
+        float sensitivity = 1;
+
+        transform.RotateAround (transform.position, -Vector3.up, rotateHorizontal * sensitivity);
+
+        transform.RotateAround(Vector3.zero, transform.right, rotateVertical * sensitivity);
+
+
+
+
 
     }
 
@@ -110,6 +129,7 @@ public class MoveCharacterScript : MonoBehaviour
 
     public void SwitchCharacter()
     {
+        Vector3 velocity = currentRB.velocity;
 
         //processing characterSelected variable
         switch (characterSelected)
@@ -120,11 +140,15 @@ public class MoveCharacterScript : MonoBehaviour
                 //change characterSelected state
                 characterSelected = 2;
 
-                characterPawn.gameObject.SetActive(false);
+                
                 characterBall.gameObject.SetActive(true);
+                characterPawn.gameObject.SetActive(false);
+
                 characterBall.transform.position = transform.position;
 
                 currentRB = characterBall.GetComponent<Rigidbody>();
+
+                
                 break;
 
             //Change from Ball character to Pawn character
@@ -138,8 +162,11 @@ public class MoveCharacterScript : MonoBehaviour
                 characterPawn.transform.position = transform.position;
 
                 currentRB = characterPawn.GetComponent<Rigidbody>();
+
+                
                 break;
         }
+        currentRB.velocity = velocity;
     }
 
     //Code to display ball's current speed to UI
