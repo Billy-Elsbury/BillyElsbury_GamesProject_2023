@@ -14,14 +14,25 @@ public class MoveCharacterScript : MonoBehaviour
 
     public float movementSpeed = 5f;
     private float currentSpeed;
+    private float boostForce = 50f;
+
     public bool isGrounded;
 
     private Vector3 lastPosition;
     public Vector3 gravityModifier;
 
+    internal void boost()
+    {
+        currentRB.AddForce(currentRB.velocity.normalized * boostForce, ForceMode.Impulse);
+    }
+
+    public Vector3 boostPadVelocity;
+
     private Rigidbody currentRB, ballRB, characterRB;
 
     public TextMeshProUGUI speedUI;
+
+    bool OnBoostPad;
 
     // Start is called before the first frame update
     void Start()
@@ -33,11 +44,22 @@ public class MoveCharacterScript : MonoBehaviour
         ballRB = characterBall.GetComponent<Rigidbody>();
         characterRB = characterPawn.GetComponent<Rigidbody>();
 
+        inform(ballRB);
+        inform(characterRB);
+
         gravityModifier = new Vector3(0f, -1f, 0f);
-        
+        boostPadVelocity = new Vector3(50f, 0f, 0f);
+
         //lock cursor in camera view
         Cursor.lockState = CursorLockMode.Locked;
         Cursor.visible = false;
+    }
+
+    private void inform(Rigidbody rb)
+    {
+        rb.GetComponent<ICharControl>();
+        ICharControl character = rb.GetComponent<ICharControl>();
+        character.iAm(this);
     }
 
     // Update is called once per frame
@@ -48,7 +70,7 @@ public class MoveCharacterScript : MonoBehaviour
 
         //code to increase gravity for better feeling physics
         currentRB.AddForce(gravityModifier * 2);
-        
+
 
         //Horizontal inputs
         if (Input.GetAxis("Horizontal") > 0)
@@ -71,28 +93,19 @@ public class MoveCharacterScript : MonoBehaviour
         }
 
         //Input to change between characters
-        if(Input.GetKeyUp(KeyCode.C))
+        if (Input.GetKeyUp(KeyCode.C))
         {
             if (characterSelected == 1)
             {
-                SwitchCharacter();    
+                SwitchCharacter();
             }
-            
+
             else if (characterSelected == 2)
             {
 
                 SwitchCharacter();
-            }         
+            }
         }
-
-        /*else if (Input.GetKeyUp(KeyCode.C) && currentRB == ballRB)
-        {
-            characterSelected = 2;
-
-            CopyVelocity(currentRB, characterRB);
-
-            SwitchCharacter();
-        }*/
 
         transform.position = currentRB.position;
 
@@ -102,12 +115,9 @@ public class MoveCharacterScript : MonoBehaviour
         float rotateVertical = -Input.GetAxis("Mouse Y");
         float sensitivity = 1;
 
-        transform.RotateAround (transform.position, -Vector3.up, rotateHorizontal * sensitivity);
+        transform.RotateAround(transform.position, -Vector3.up, rotateHorizontal * sensitivity);
 
         transform.RotateAround(Vector3.zero, transform.right, rotateVertical * sensitivity);
-
-
-
 
 
     }
@@ -176,5 +186,10 @@ public class MoveCharacterScript : MonoBehaviour
         lastPosition = transform.position;
         speedUI.text = currentSpeed.ToString("F0");
     }
+
+    public void boostPad()
+    {
+        currentRB.AddForce(boostPadVelocity, ForceMode.Impulse);
+    } 
 
 }

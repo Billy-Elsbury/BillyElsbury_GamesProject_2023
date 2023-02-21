@@ -6,16 +6,26 @@ public class BallSpecifics : MonoBehaviour,ICharControl
 {
     bool isGrounded = false;
     bool hasBoosted = false;
-    float boostForce = 20f;
-    public Vector3 jumping_velocity;
+
+    float boostForce = 50f;
+    float boostVertical = 25f;
+
+    float jumpForce = 1000f;
+
+    public Vector3 boostVelocity;
+    public Vector3 jumpingVelocity;
     Rigidbody rb;
+
+    MoveCharacterScript parentScript;
 
     // Start is called before the first frame update
     void Start()
     {
         rb = GetComponent<Rigidbody>();
-        jumping_velocity = new Vector3(0f, 1000f, 0f);
-        
+
+        jumpingVelocity = new Vector3(0f, jumpForce, 0f);
+        boostVelocity = new Vector3(boostForce, boostVertical, 0f);
+
     }
 
     // Update is called once per frame
@@ -43,7 +53,7 @@ public class BallSpecifics : MonoBehaviour,ICharControl
     public void jump()
     {
         print("Jumping!!");
-        rb.AddForce(jumping_velocity);
+        rb.AddForce(jumpingVelocity);
     }
 
     private void OnCollisionEnter(Collision collision)
@@ -62,5 +72,15 @@ public class BallSpecifics : MonoBehaviour,ICharControl
             print("Ball is Airborne!");
             isGrounded = false;
         }
+    }
+
+    public MoveCharacterScript daddy()
+    {
+        return parentScript;
+    }
+
+    public void iAm(MoveCharacterScript parent)
+    {
+        parentScript = parent;
     }
 }
