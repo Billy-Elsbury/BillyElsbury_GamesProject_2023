@@ -12,8 +12,7 @@ public class MoveCharacterScript : MonoBehaviour
     //variable to control which character is selected
     int characterSelected = 1;
 
-    public float movementSpeed = 5f;
-    private float currentSpeed;
+    private float currentSpeed; //only for UI
     private float boostForce = 50f;
 
     public bool isGrounded;
@@ -72,25 +71,7 @@ public class MoveCharacterScript : MonoBehaviour
         currentRB.AddForce(gravityModifier * 2);
 
 
-        //Horizontal inputs
-        if (Input.GetAxis("Horizontal") > 0)
-        {
-            currentRB.AddForce(transform.right * movementSpeed);
-        }
-        else if (Input.GetAxis("Horizontal") < 0)
-        {
-            currentRB.AddForce(-transform.right * movementSpeed);
-        }
-
-        //Vertical inputs
-        if (Input.GetAxis("Vertical") > 0)
-        {
-            currentRB.AddForce(transform.forward * movementSpeed);
-        }
-        else if (Input.GetAxis("Vertical") < 0)
-        {
-            currentRB.AddForce(-transform.forward * movementSpeed);
-        }
+       
 
         //Input to change between characters
         if (Input.GetKeyUp(KeyCode.C))

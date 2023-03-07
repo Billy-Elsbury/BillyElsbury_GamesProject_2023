@@ -16,6 +16,11 @@ public class CharacterSpecifics : MonoBehaviour,ICharControl
 
     MoveCharacterScript parentScript;
 
+    public Animator playerAnimator;
+    public float walkSpeed, walkBackSpeed, slowRunSpeed, runSpeed, rotateSpeed;
+    public bool walking;
+    public Transform playerTrans;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -24,8 +29,18 @@ public class CharacterSpecifics : MonoBehaviour,ICharControl
         boostVelocity = new Vector3(0f, boostForce, 0f);
 
     }
-
-    // Update is called once per frame
+    void FixedUpdate()
+    {
+        //basic code to move character
+        if (Input.GetKey(KeyCode.W))
+        {
+            rb.velocity = transform.forward * walkSpeed * Time.deltaTime;
+        }
+        if (Input.GetKey(KeyCode.S))
+        {
+            rb.velocity = -transform.forward * walkBackSpeed * Time.deltaTime;
+        }
+    }
     void Update()
     {
         if (Input.GetKeyUp(KeyCode.B) && hasBoosted == false && isGrounded == false)
@@ -39,6 +54,61 @@ public class CharacterSpecifics : MonoBehaviour,ICharControl
         {
             jump();
             hasBoosted = false;
+        }
+
+
+        if (Input.GetKeyDown(KeyCode.W))
+        {
+            playerAnimator.SetTrigger("Slow_Run");
+            playerAnimator.ResetTrigger("Idle");
+            walking = true;
+            //steps1.SetActive(true);
+        }
+        if (Input.GetKeyUp(KeyCode.W))
+        {
+            playerAnimator.ResetTrigger("Slow_Run");
+            playerAnimator.SetTrigger("Idle");
+            walking = false;
+            //steps1.SetActive(false);
+        }
+        if (Input.GetKeyDown(KeyCode.S))
+        {
+            playerAnimator.SetTrigger("Walk_Back");
+            playerAnimator.ResetTrigger("Idle");
+            //steps1.SetActive(true);
+        }
+        if (Input.GetKeyUp(KeyCode.S))
+        {
+            playerAnimator.ResetTrigger("Walk_Back");
+            playerAnimator.SetTrigger("Idle");
+            //steps1.SetActive(false);
+        }
+        if (Input.GetKey(KeyCode.A))
+        {
+            playerTrans.Rotate(0, -rotateSpeed * Time.deltaTime, 0);
+        }
+        if (Input.GetKey(KeyCode.D))
+        {
+            playerTrans.Rotate(0, rotateSpeed * Time.deltaTime, 0);
+        }
+        if (walking == true)
+        {
+            if (Input.GetKeyDown(KeyCode.LeftShift))
+            {
+                //steps1.SetActive(false);
+                //steps2.SetActive(true);
+                walkSpeed = walkSpeed + runSpeed;
+                playerAnimator.SetTrigger("Fast_Run");
+                playerAnimator.ResetTrigger("Slow_Run");
+            }
+            if (Input.GetKeyUp(KeyCode.LeftShift))
+            {
+                //steps1.SetActive(true);
+                //steps2.SetActive(false);
+                walkSpeed = slowRunSpeed;
+                playerAnimator.ResetTrigger("Fast_Run");
+                playerAnimator.SetTrigger("Slow_Run");
+            }
         }
     }
 

@@ -11,6 +11,7 @@ public class BallSpecifics : MonoBehaviour,ICharControl
     float boostVertical = 25f;
 
     float jumpForce = 1000f;
+    public float movementSpeed = 15f;
 
     public Vector3 boostVelocity;
     public Vector3 jumpingVelocity;
@@ -31,6 +32,27 @@ public class BallSpecifics : MonoBehaviour,ICharControl
     // Update is called once per frame
     void Update()
     {
+        //Horizontal inputs
+        if (Input.GetAxis("Horizontal") > 0)
+        {
+            rb.AddForce(transform.right * movementSpeed);
+        }
+        else if (Input.GetAxis("Horizontal") < 0)
+        {
+            rb.AddForce(-transform.right * movementSpeed);
+        }
+
+        //Vertical inputs
+        if (Input.GetAxis("Vertical") > 0)
+        {
+            rb.AddForce(transform.forward * movementSpeed);
+        }
+        else if (Input.GetAxis("Vertical") < 0)
+        {
+            rb.AddForce(-transform.forward * movementSpeed);
+        }
+
+
         if (Input.GetKeyUp(KeyCode.B) && hasBoosted == false && isGrounded == false)
         {
             boost();
