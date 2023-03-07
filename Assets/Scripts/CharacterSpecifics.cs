@@ -29,20 +29,18 @@ public class CharacterSpecifics : MonoBehaviour,ICharControl
         boostVelocity = new Vector3(0f, boostForce, 0f);
 
     }
-    void FixedUpdate()
+    void Update()
     {
         //basic code to move character
-        if (Input.GetKey(KeyCode.W))
+        if (Input.GetKey(KeyCode.W) && (isGrounded))
         {
             rb.velocity = transform.forward * walkSpeed * Time.deltaTime;
         }
-        if (Input.GetKey(KeyCode.S))
+        if (Input.GetKey(KeyCode.S) && (isGrounded))
         {
             rb.velocity = -transform.forward * walkBackSpeed * Time.deltaTime;
         }
-    }
-    void Update()
-    {
+
         if (Input.GetKeyUp(KeyCode.B) && hasBoosted == false && isGrounded == false)
         {
             boost();
@@ -50,14 +48,14 @@ public class CharacterSpecifics : MonoBehaviour,ICharControl
         }
 
         //Jump Input
-        if (isGrounded == true && Input.GetKeyUp(KeyCode.Space))
+        if ((isGrounded == true) && Input.GetKeyUp(KeyCode.Space))
         {
             jump();
             hasBoosted = false;
         }
 
 
-        if (Input.GetKeyDown(KeyCode.W))
+        if (Input.GetKeyDown(KeyCode.W) && (isGrounded))
         {
             playerAnimator.SetTrigger("Slow_Run");
             playerAnimator.ResetTrigger("Idle");
@@ -71,7 +69,7 @@ public class CharacterSpecifics : MonoBehaviour,ICharControl
             walking = false;
             //steps1.SetActive(false);
         }
-        if (Input.GetKeyDown(KeyCode.S))
+        if (Input.GetKeyDown(KeyCode.S) && (isGrounded))
         {
             playerAnimator.SetTrigger("Walk_Back");
             playerAnimator.ResetTrigger("Idle");

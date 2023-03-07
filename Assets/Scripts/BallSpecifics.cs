@@ -16,6 +16,8 @@ public class BallSpecifics : MonoBehaviour,ICharControl
     public Vector3 boostVelocity;
     public Vector3 jumpingVelocity;
     Rigidbody rb;
+    public Transform dummyBall;
+
 
     MoveCharacterScript parentScript;
 
@@ -35,21 +37,21 @@ public class BallSpecifics : MonoBehaviour,ICharControl
         //Horizontal inputs
         if (Input.GetAxis("Horizontal") > 0)
         {
-            rb.AddForce(transform.right * movementSpeed);
+            rb.AddForce(dummyBall.right * movementSpeed);
         }
         else if (Input.GetAxis("Horizontal") < 0)
         {
-            rb.AddForce(-transform.right * movementSpeed);
+            rb.AddForce(-dummyBall.right * movementSpeed);
         }
 
         //Vertical inputs
         if (Input.GetAxis("Vertical") > 0)
         {
-            rb.AddForce(transform.forward * movementSpeed);
+            rb.AddForce(dummyBall.forward * movementSpeed);
         }
         else if (Input.GetAxis("Vertical") < 0)
         {
-            rb.AddForce(-transform.forward * movementSpeed);
+            rb.AddForce(-dummyBall.forward * movementSpeed);
         }
 
 
@@ -65,6 +67,9 @@ public class BallSpecifics : MonoBehaviour,ICharControl
             jump();
             hasBoosted = false;
         }
+
+
+        dummyBall.position = transform.position;
     }
     public void boost()
     {

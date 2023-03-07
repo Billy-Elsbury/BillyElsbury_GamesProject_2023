@@ -8,6 +8,7 @@ public class MoveCharacterScript : MonoBehaviour
 {
     //Reference character game objects
     public GameObject characterBall, characterPawn;
+    BallSpecifics theBall;
 
     //variable to control which character is selected
     int characterSelected = 1;
@@ -16,6 +17,8 @@ public class MoveCharacterScript : MonoBehaviour
     private float boostForce = 50f;
 
     public bool isGrounded;
+
+    CameraFollow theCam;
 
     private Vector3 lastPosition;
     public Vector3 gravityModifier;
@@ -36,6 +39,9 @@ public class MoveCharacterScript : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        theCam = FindObjectOfType<CameraFollow>();
+        theCam.follow(characterPawn.transform);
+        theBall = characterBall.GetComponent<BallSpecifics>();
         characterPawn.gameObject.SetActive(true);
         characterBall.gameObject.SetActive(false);
 
@@ -100,7 +106,7 @@ public class MoveCharacterScript : MonoBehaviour
 
         transform.RotateAround(Vector3.zero, transform.right, rotateVertical * sensitivity);
 
-
+       
     }
 
     //method to Copy the velocity from one character to the other when switching between them
@@ -134,6 +140,7 @@ public class MoveCharacterScript : MonoBehaviour
                 
                 characterBall.gameObject.SetActive(true);
                 characterPawn.gameObject.SetActive(false);
+                theCam.follow(theBall.dummyBall);
 
                 characterBall.transform.position = transform.position;
 
