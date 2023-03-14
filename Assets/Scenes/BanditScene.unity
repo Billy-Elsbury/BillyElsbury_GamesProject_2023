@@ -1621,7 +1621,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1605551140}
   m_LocalRotation: {x: 0.07822503, y: -0, z: -0, w: 0.9969357}
-  m_LocalPosition: {x: 0, y: 2.29, z: -13.24}
+  m_LocalPosition: {x: 0, y: 1.28, z: -6.85}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -1637,10 +1637,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 1605551140}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 927e4597324cc024da92246556277763, type: 3}
+  m_Script: {fileID: 11500000, guid: 0e5de301c01f72344aa5101fd8d7e15d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  smoothness: 0.02
+  smoothness: 0.5
 --- !u!1 &1670050518
 GameObject:
   m_ObjectHideFlags: 0
@@ -1773,11 +1773,11 @@ MonoBehaviour:
   boostVelocity: {x: 0, y: 0, z: 0}
   jumpingVelocity: {x: 0, y: 0, z: 0}
   playerAnimator: {fileID: 584585917}
-  walkSpeed: 600
-  walkBackSpeed: 600
-  slowRunSpeed: 500
-  runSpeed: 1200
-  rotateSpeed: 70
+  walkSpeed: 1200
+  walkBackSpeed: 1200
+  slowRunSpeed: 1200
+  runSpeed: 2000
+  rotateSpeed: 90
   walking: 0
   playerTrans: {fileID: 1670050523}
 --- !u!1 &1702329041
@@ -1827,6 +1827,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   characterBall: {fileID: 1142825791}
   characterPawn: {fileID: 1670050518}
+  maxSpeed: 100
   isGrounded: 0
   gravityModifier: {x: 0, y: 0, z: 0}
   boostPadVelocity: {x: 0, y: 0, z: 0}
