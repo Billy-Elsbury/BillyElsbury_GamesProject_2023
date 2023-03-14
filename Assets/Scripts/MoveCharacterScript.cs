@@ -15,6 +15,7 @@ public class MoveCharacterScript : MonoBehaviour
 
     private float currentSpeed; //only for UI
     private float boostForce = 50f;
+    public float maxSpeed = 200f;
 
     public bool isGrounded;
 
@@ -22,13 +23,12 @@ public class MoveCharacterScript : MonoBehaviour
 
     private Vector3 lastPosition;
     public Vector3 gravityModifier;
+    public Vector3 boostPadVelocity;
 
     internal void boost()
     {
         currentRB.AddForce(currentRB.velocity.normalized * boostForce, ForceMode.Impulse);
     }
-
-    public Vector3 boostPadVelocity;
 
     private Rigidbody currentRB, ballRB, characterRB;
 
@@ -39,6 +39,9 @@ public class MoveCharacterScript : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        gravityModifier = new Vector3(0f, -1.5f, 0f);
+        boostPadVelocity = new Vector3(100f, 0f, 0f);
+
         theCam = FindObjectOfType<CameraFollow>();
         theCam.follow(characterPawn.transform);
         theBall = characterBall.GetComponent<BallSpecifics>();
@@ -51,9 +54,6 @@ public class MoveCharacterScript : MonoBehaviour
 
         inform(ballRB);
         inform(characterRB);
-
-        gravityModifier = new Vector3(0f, -1f, 0f);
-        boostPadVelocity = new Vector3(50f, 0f, 0f);
 
         //lock cursor in camera view
         Cursor.lockState = CursorLockMode.Locked;
@@ -71,7 +71,7 @@ public class MoveCharacterScript : MonoBehaviour
     void Update()
     {
         //call speed control method
-        //SpeedControl();
+        SpeedControl();
 
         //code to increase gravity for better feeling physics
         currentRB.AddForce(gravityModifier * 2);
@@ -98,15 +98,24 @@ public class MoveCharacterScript : MonoBehaviour
 
 
         //code to rotate character and camera should follow
-        float rotateHorizontal = -Input.GetAxis("Mouse X");
-        float rotateVertical = -Input.GetAxis("Mouse Y");
+        float rotateHorizontal = Input.GetAxis("Horizontal");
+        float rotateVertical = Input.GetAxis("Vertical");
         float sensitivity = 1;
 
-        transform.RotateAround(transform.position, -Vector3.up, rotateHorizontal * sensitivity);
+        theCam.update(rotateHorizontal * sensitivity, rotateVertical * sensitivity);
+       // transform.RotateAround(transform.position, -Vector3.up, rotateHorizontal * sensitivity);
 
-        transform.RotateAround(Vector3.zero, transform.right, rotateVertical * sensitivity);
+      //  transform.RotateAround(Vector3.zero, transform.right, rotateVertical * sensitivity);
 
        
+    }
+
+    private void SpeedControl()
+    {
+        if (currentRB.velocity.magnitude > maxSpeed)
+        {
+            currentRB.velocity = currentRB.velocity.normalized * maxSpeed;
+        }
     }
 
     //method to Copy the velocity from one character to the other when switching between them
@@ -126,7 +135,11 @@ public class MoveCharacterScript : MonoBehaviour
 
     public void SwitchCharacter()
     {
+        // store the current velocity
         Vector3 velocity = currentRB.velocity;
+        // store the current rotation
+        Quaternion rotation = transform.rotation; 
+
 
         //processing characterSelected variable
         switch (characterSelected)
@@ -142,7 +155,10 @@ public class MoveCharacterScript : MonoBehaviour
                 characterPawn.gameObject.SetActive(false);
                 theCam.follow(theBall.dummyBall);
 
+                // set new character's position to the previous character's position
                 characterBall.transform.position = transform.position;
+                // set new character's rotation to the previous character's rotation
+                characterBall.transform.rotation = rotation;
 
                 currentRB = characterBall.GetComponent<Rigidbody>();
 
@@ -157,7 +173,12 @@ public class MoveCharacterScript : MonoBehaviour
 
                 characterPawn.gameObject.SetActive(true);
                 characterBall.gameObject.SetActive(false);
+                theCam.follow(characterPawn.transform);
+
+
                 characterPawn.transform.position = transform.position;
+                // set new character's position to the previous character's position
+                characterBall.transform.rotation = rotation; 
 
                 currentRB = characterPawn.GetComponent<Rigidbody>();
 
