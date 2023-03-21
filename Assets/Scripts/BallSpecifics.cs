@@ -11,7 +11,7 @@ public class BallSpecifics : MonoBehaviour,ICharControl
     float boostVertical = 25f;
 
     float jumpForce = 1000f;
-    public float movementSpeed = 15f;
+    public float movementSpeed = 1000f;
 
     public Vector3 boostVelocity;
     public Vector3 jumpingVelocity;
@@ -35,21 +35,21 @@ public class BallSpecifics : MonoBehaviour,ICharControl
     void Update()
     {
         //Horizontal inputs
-        if (Input.GetAxis("Horizontal") > 0)
+        if (Input.GetKey(KeyCode.D))
         {
             rb.AddForce(dummyBall.right * movementSpeed);
         }
-        else if (Input.GetAxis("Horizontal") < 0)
+        if (Input.GetKey(KeyCode.A))
         {
             rb.AddForce(-dummyBall.right * movementSpeed);
         }
 
         //Vertical inputs
-        if (Input.GetAxis("Vertical") > 0)
+        if (Input.GetKey(KeyCode.W))
         {
             rb.AddForce(dummyBall.forward * movementSpeed);
         }
-        else if (Input.GetAxis("Vertical") < 0)
+        if (Input.GetKey(KeyCode.S))
         {
             rb.AddForce(-dummyBall.forward * movementSpeed);
         }

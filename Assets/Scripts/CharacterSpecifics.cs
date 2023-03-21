@@ -32,11 +32,11 @@ public class CharacterSpecifics : MonoBehaviour,ICharControl
     void Update()
     {
         //basic code to move character
-        if (Input.GetKey(KeyCode.W) && (isGrounded))
+        if (Input.GetKey(KeyCode.W) && isGrounded)
         {
             rb.velocity = transform.forward * walkSpeed * Time.deltaTime;
         }
-        if (Input.GetKey(KeyCode.S) && (isGrounded))
+        if (Input.GetKey(KeyCode.S) && isGrounded)
         {
             rb.velocity = -transform.forward * walkBackSpeed * Time.deltaTime;
         }
@@ -60,26 +60,22 @@ public class CharacterSpecifics : MonoBehaviour,ICharControl
             playerAnimator.SetTrigger("Slow_Run");
             playerAnimator.ResetTrigger("Idle");
             walking = true;
-            //steps1.SetActive(true);
         }
         if (Input.GetKeyUp(KeyCode.W))
         {
             playerAnimator.ResetTrigger("Slow_Run");
             playerAnimator.SetTrigger("Idle");
             walking = false;
-            //steps1.SetActive(false);
         }
         if (Input.GetKeyDown(KeyCode.S) && (isGrounded))
         {
             playerAnimator.SetTrigger("Walk_Back");
             playerAnimator.ResetTrigger("Idle");
-            //steps1.SetActive(true);
         }
         if (Input.GetKeyUp(KeyCode.S))
         {
             playerAnimator.ResetTrigger("Walk_Back");
             playerAnimator.SetTrigger("Idle");
-            //steps1.SetActive(false);
         }
         if (Input.GetKey(KeyCode.A))
         {
@@ -93,16 +89,12 @@ public class CharacterSpecifics : MonoBehaviour,ICharControl
         {
             if (Input.GetKeyDown(KeyCode.LeftShift))
             {
-                //steps1.SetActive(false);
-                //steps2.SetActive(true);
                 walkSpeed = walkSpeed + runSpeed;
                 playerAnimator.SetTrigger("Fast_Run");
                 playerAnimator.ResetTrigger("Slow_Run");
             }
             if (Input.GetKeyUp(KeyCode.LeftShift))
             {
-                //steps1.SetActive(true);
-                //steps2.SetActive(false);
                 walkSpeed = slowRunSpeed;
                 playerAnimator.ResetTrigger("Fast_Run");
                 playerAnimator.SetTrigger("Slow_Run");

@@ -5,67 +5,42 @@ using UnityEngine;
 
 public class CameraFollow : MonoBehaviour
 {
-    Transform target;
-    private Vector3 offset = new Vector3(0,1,-5), desiredPosition;
-    private Quaternion desiredRotation;
-    public float smoothness = 20f;
-    Vector3 lastPosition;
-    private Vector3 lastForward;
+    public Transform target; // the target object to follow
+    float smoothSpeed = 0.125f; // the speed at which the camera will follow the target
+    Vector3 offset; // the initial offset from the target object
+    float mouseSensitivity = 10.0f; // the sensitivity of the mouse movement
+    float theta =180, phi = 0;
+    float distance; // the distance between the camera and the target
 
-    float theta, phi=90;
-    // Start is called before the first frame update
+    
+
     void Start()
     {
-        desiredPosition = getRelative(target, offset);
+        offset = new Vector3(0, 2, -7);
+        distance = offset.magnitude; // get the initial distance between the camera and the target
     }
 
-    private Vector3 getRelative(Transform target, Vector3 offset)
+    void LateUpdate()
     {
-        return target.position + offset.x * transform.right + offset.y * transform.up + offset.z * transform.forward;
+        // handle mouse movement
+        theta += Input.GetAxis("Horizontal") * mouseSensitivity * Time.deltaTime;
+        //theta = Mathf.Clamp(theta, 40, 220);
+        phi += Input.GetAxis("Vertical") * mouseSensitivity * Time.deltaTime;
+        phi = Mathf.Clamp(phi, -60, 5);
+
+        //print(Input.GetAxis("Vertical"));
+
+        Vector3 desiredPosition = target.position + distance * (Quaternion.AngleAxis(theta, Vector3.up) * Quaternion.AngleAxis(phi, target.right) * target.forward);
+
+        //print(phi.ToString() + "    " + theta.ToString());
+        Vector3 axis = Vector3.Cross(Vector3.up, (transform.position - target.position).normalized);
+
+
+        // smoothly update the position and rotation of the camera
+        transform.position = Vector3.Lerp(transform.position, desiredPosition, smoothSpeed);
+
+        transform.LookAt(target.position);
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-  
-        desiredPosition = getRelative(target, Quaternion.AngleAxis(phi, target.right)*offset);
-        //desiredPosition = target.position - target.forward * 10 + 2 * Vector3.up;
-        // desiredRotation = target.rotation;
-
-        //// Use Vector3.Lerp to smoothly move the camera towards the target position
-        transform.position = desiredPosition;
-        // Vector3 dir = ((target.position + target.forward * 2) - transform.position).normalized;
-        // Use Quaternion.Slerp to smoothly rotate the camera towards the target rotation
-        // Quaternion targetRotation = Quaternion.LookRotation(dir, Vector3.up);
-        // transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, Time.deltaTime * smoothness);
-        // float d = Vector3.Dot(transform.forward, lastForward);
-
-        //if (d<0.8f)
-        //{
-        //    print(d);
-        //}
-
-        transform.LookAt(target);
-    }
-
-    internal void follow(Transform targetTransform)
-    {
-        target = targetTransform;
-    }
-
-    private void LateUpdate()
-    {
-        lastPosition = transform.position;
-        lastForward = transform.forward;
-    }
-
-    internal void update(float horizontalDelta, float verticalDelta)
-    {
-        theta += horizontalDelta;
-        theta = Mathf.Clamp(theta, -45, 45);
-        phi += verticalDelta;
-        phi = Mathf.Clamp(phi, 60, 120);
-        print(desiredPosition.ToString());
-        print(theta.ToString() + "   " + phi.ToString());
-    }
 }
+

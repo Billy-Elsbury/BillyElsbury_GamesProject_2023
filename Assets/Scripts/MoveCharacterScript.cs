@@ -43,7 +43,7 @@ public class MoveCharacterScript : MonoBehaviour
         boostPadVelocity = new Vector3(100f, 0f, 0f);
 
         theCam = FindObjectOfType<CameraFollow>();
-        theCam.follow(characterPawn.transform);
+        //theCam.follow(characterPawn.transform);
         theBall = characterBall.GetComponent<BallSpecifics>();
         characterPawn.gameObject.SetActive(true);
         characterBall.gameObject.SetActive(false);
@@ -95,18 +95,6 @@ public class MoveCharacterScript : MonoBehaviour
         }
 
         transform.position = currentRB.position;
-
-
-        //code to rotate character and camera should follow
-        float rotateHorizontal = Input.GetAxis("Horizontal");
-        float rotateVertical = Input.GetAxis("Vertical");
-        float sensitivity = 1;
-
-        theCam.update(rotateHorizontal * sensitivity, rotateVertical * sensitivity);
-       // transform.RotateAround(transform.position, -Vector3.up, rotateHorizontal * sensitivity);
-
-      //  transform.RotateAround(Vector3.zero, transform.right, rotateVertical * sensitivity);
-
        
     }
 
@@ -153,7 +141,7 @@ public class MoveCharacterScript : MonoBehaviour
                 
                 characterBall.gameObject.SetActive(true);
                 characterPawn.gameObject.SetActive(false);
-                theCam.follow(theBall.dummyBall);
+                //theCam.follow(theBall.dummyBall);
 
                 // set new character's position to the previous character's position
                 characterBall.transform.position = transform.position;
@@ -173,7 +161,7 @@ public class MoveCharacterScript : MonoBehaviour
 
                 characterPawn.gameObject.SetActive(true);
                 characterBall.gameObject.SetActive(false);
-                theCam.follow(characterPawn.transform);
+                //theCam.follow(characterPawn.transform);
 
 
                 characterPawn.transform.position = transform.position;
