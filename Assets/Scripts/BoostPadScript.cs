@@ -28,11 +28,7 @@ public class BoostPadScript : MonoBehaviour
             character.daddy().boost();
         }
     print("Entered Boost!");
-    //if (collision.gameObject.tag == "BoostPad")
-    //{
-    //    print("Boost Pad Hit!");
-    //    OnBoostPad = true;
-    //}
+
     }
 
 }

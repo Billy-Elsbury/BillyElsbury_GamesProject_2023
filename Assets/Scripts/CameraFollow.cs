@@ -9,7 +9,7 @@ public class CameraFollow : MonoBehaviour
     float smoothSpeed = 0.125f; // the speed at which the camera will follow the target
     Vector3 offset; // the initial offset from the target object
     float mouseSensitivity = 10.0f; // the sensitivity of the mouse movement
-    float theta =180, phi = 0;
+    float theta =90, phi = 60;
     float distance; // the distance between the camera and the target
 
     

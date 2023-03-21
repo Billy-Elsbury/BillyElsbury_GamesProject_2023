@@ -7,11 +7,11 @@ public class BallSpecifics : MonoBehaviour,ICharControl
     bool isGrounded = false;
     bool hasBoosted = false;
 
-    float boostForce = 50f;
-    float boostVertical = 25f;
+    public float boostHorizontal = 50f;
+    public float boostVertical = 25f;
 
     float jumpForce = 1000f;
-    public float movementSpeed = 1000f;
+    public float movementSpeed = 10f;
 
     public Vector3 boostVelocity;
     public Vector3 jumpingVelocity;
@@ -27,7 +27,7 @@ public class BallSpecifics : MonoBehaviour,ICharControl
         rb = GetComponent<Rigidbody>();
 
         jumpingVelocity = new Vector3(0f, jumpForce, 0f);
-        boostVelocity = new Vector3(boostForce, boostVertical, 0f);
+        boostVelocity = new Vector3(boostHorizontal, boostVertical, 0f);
 
     }
 
@@ -73,7 +73,7 @@ public class BallSpecifics : MonoBehaviour,ICharControl
     }
     public void boost()
     {
-        rb.AddForce(rb.velocity.normalized * boostForce, ForceMode.Impulse);
+        rb.AddForce(rb.velocity.normalized * boostHorizontal, ForceMode.Impulse);
     }
 
 

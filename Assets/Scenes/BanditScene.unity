@@ -1111,6 +1111,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6f95c08de884dcb4baa994bef304ea27, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  boostHorizontal: 50
+  boostVertical: 25
   movementSpeed: 15
   boostVelocity: {x: 0, y: 0, z: 0}
   jumpingVelocity: {x: 0, y: 0, z: 0}
@@ -1640,7 +1642,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0e5de301c01f72344aa5101fd8d7e15d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  smoothness: 0.5
+  target: {fileID: 1702329042}
 --- !u!1 &1670050518
 GameObject:
   m_ObjectHideFlags: 0
