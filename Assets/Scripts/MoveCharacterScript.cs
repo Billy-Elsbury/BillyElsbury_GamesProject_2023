@@ -22,7 +22,7 @@ public class MoveCharacterScript : MonoBehaviour
     CameraFollow theCam;
 
     private Vector3 lastPosition;
-    public Vector3 gravityModifier;
+    public Vector3 gravityModifier = new Vector3(0f, -1.5f, 0f);
     public Vector3 boostPadVelocity;
 
     internal void boost()
@@ -36,10 +36,12 @@ public class MoveCharacterScript : MonoBehaviour
 
     bool OnBoostPad;
 
+    
+
     // Start is called before the first frame update
     void Start()
     {
-        gravityModifier = new Vector3(0f, -1.5f, 0f);
+       
         boostPadVelocity = new Vector3(100f, 0f, 0f);
 
         theCam = FindObjectOfType<CameraFollow>();

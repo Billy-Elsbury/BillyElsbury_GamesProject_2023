@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -17,7 +18,7 @@ public class BallSpecifics : MonoBehaviour,ICharControl
     public Vector3 jumpingVelocity;
     Rigidbody rb;
     public Transform dummyBall;
-
+    SphereCollider co;
 
     MoveCharacterScript parentScript;
 
@@ -25,6 +26,8 @@ public class BallSpecifics : MonoBehaviour,ICharControl
     void Start()
     {
         rb = GetComponent<Rigidbody>();
+        co = GetComponent<SphereCollider>();
+        co
 
         jumpingVelocity = new Vector3(0f, jumpForce, 0f);
         boostVelocity = new Vector3(boostHorizontal, boostVertical, 0f);
@@ -55,22 +58,40 @@ public class BallSpecifics : MonoBehaviour,ICharControl
         }
 
 
-        if (Input.GetKeyUp(KeyCode.B) && hasBoosted == false && isGrounded == false)
+        if (Input.GetKeyUp(KeyCode.B) && !hasBoosted)
         {
             boost();
             hasBoosted = true;
         }
 
         //Jump Input
-        if (isGrounded == true && Input.GetKeyUp(KeyCode.Space))
+        if (isGrounded && Input.GetKeyUp(KeyCode.Space))
         {
             jump();
             hasBoosted = false;
         }
 
-
         dummyBall.position = transform.position;
+
+        isGrounded = check_Ground();
     }
+
+    public Boolean check_Ground()
+    {
+        Boolean Grounded = false;
+        RaycastHit hit;
+
+
+        if (Physics.Raycast(new Vector3(rb.position.x, rb.position.y, rb.position.z) - (new Vector3(0, -1, 0) - new Vector3(transform.up.x, transform.up.y, transform.up.z)), (new Vector3(0, -1, 0) - new Vector3(transform.up.x, transform.up.y, transform.up.z)), 2.2f),//layermask for collision sphere);
+        {
+            Grounded = true;
+           
+        }
+        
+
+        return Grounded;
+    }
+
     public void boost()
     {
         rb.AddForce(rb.velocity.normalized * boostHorizontal, ForceMode.Impulse);
@@ -83,23 +104,6 @@ public class BallSpecifics : MonoBehaviour,ICharControl
         rb.AddForce(jumpingVelocity);
     }
 
-    private void OnCollisionEnter(Collision collision)
-    {
-        if (collision.gameObject.tag == "Ground")
-        {
-            print("Ball is Grounded");
-            isGrounded = true;
-        }
-    }
-
-    private void OnCollisionExit(Collision collision)
-    {
-        if (collision.gameObject.tag == "Ground")
-        {
-            print("Ball is Airborne!");
-            isGrounded = false;
-        }
-    }
 
     public MoveCharacterScript daddy()
     {

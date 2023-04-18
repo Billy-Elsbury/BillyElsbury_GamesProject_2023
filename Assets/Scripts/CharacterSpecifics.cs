@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -12,7 +13,7 @@ public class CharacterSpecifics : MonoBehaviour,ICharControl
 
     public Vector3 boostVelocity;
     public Vector3 jumpingVelocity;
-    Rigidbody rb;
+    public Rigidbody rb;
 
     MoveCharacterScript parentScript;
 
@@ -31,24 +32,43 @@ public class CharacterSpecifics : MonoBehaviour,ICharControl
     }
     void Update()
     {
+       
         //basic code to move character
-        if (Input.GetKey(KeyCode.W) && isGrounded)
+        if (Input.GetKey(KeyCode.W)&& !isGrounded)
         {
-            rb.velocity = transform.forward * walkSpeed * Time.deltaTime;
+                   
         }
-        if (Input.GetKey(KeyCode.S) && isGrounded)
+
+        else if (Input.GetKey(KeyCode.W) && isGrounded)
+        {
+
+            rb.velocity = transform.forward * walkSpeed * Time.deltaTime;
+
+        }
+
+        if (Input.GetKey(KeyCode.S) && !isGrounded)
+        {
+
+        }
+
+        else if (Input.GetKey(KeyCode.S) && isGrounded)
         {
             rb.velocity = -transform.forward * walkBackSpeed * Time.deltaTime;
         }
 
-        if (Input.GetKeyUp(KeyCode.B) && hasBoosted == false && isGrounded == false)
+        if (Input.GetKey(KeyCode.B) && !isGrounded)
+        {
+
+        }
+
+        else if (Input.GetKeyUp(KeyCode.B) && hasBoosted == false && isGrounded == false)
         {
             boost();
             hasBoosted = true;
         }
 
         //Jump Input
-        if ((isGrounded == true) && Input.GetKeyUp(KeyCode.Space))
+        if ((isGrounded) && Input.GetKeyUp(KeyCode.Space))
         {
             jump();
             hasBoosted = false;
@@ -100,7 +120,24 @@ public class CharacterSpecifics : MonoBehaviour,ICharControl
                 playerAnimator.SetTrigger("Slow_Run");
             }
         }
+
+        isGrounded = check_Ground();
+        
     }
+
+    public Boolean check_Ground()
+    {
+        Boolean Grounded = false;
+         RaycastHit hit;
+
+        if (Physics.Raycast(rb.position, rb.transform.up * -1, 1.1f))
+        {
+            Grounded = true;
+        }
+        
+        return Grounded;
+    }
+
 
     public void boost()
     {
@@ -110,36 +147,19 @@ public class CharacterSpecifics : MonoBehaviour,ICharControl
 
     public void jump()
     {
-        print("Jumping!!");
+        //print("Jumping!!");
         rb.AddForce(jumpingVelocity, ForceMode.Impulse);
     }
 
-    private void OnCollisionEnter(Collision collision)
-    {
-        if (collision.gameObject.tag == "Ground")
-        {
-            print("Character is Grounded");
-            isGrounded = true;
-        }
-    }
 
-    private void OnCollisionExit(Collision collision)
-    {
-        if (collision.gameObject.tag == "Ground")
-        {
-            print("Character is Airborne!");
-            isGrounded = false;
-        }
-    }
+public MoveCharacterScript daddy()
+{
+    return parentScript;
+}
 
-    public MoveCharacterScript daddy()
-    {
-        return parentScript;
-    }
+public void iAm(MoveCharacterScript parent)
+{
+    parentScript = parent;
 
-    public void iAm(MoveCharacterScript parent)
-    {
-        parentScript = parent;
-
-    }
+}
 }
