@@ -20,11 +20,10 @@ public class CameraFollow : MonoBehaviour
         distance = offset.magnitude; // get the initial distance between the camera and the target
     }
 
-    void LateUpdate()
+    void Update()
     {
         // handle mouse movement
         theta += Input.GetAxis("Horizontal") * mouseSensitivity * Time.deltaTime;
-        //theta = Mathf.Clamp(theta, 40, 220);
         phi += Input.GetAxis("Vertical") * mouseSensitivity * Time.deltaTime;
         phi = Mathf.Clamp(phi, -60, 5);
 

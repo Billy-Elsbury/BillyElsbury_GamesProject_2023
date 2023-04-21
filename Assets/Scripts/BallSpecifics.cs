@@ -11,11 +11,10 @@ public class BallSpecifics : MonoBehaviour,ICharControl
     public float boostHorizontal = 50f;
     public float boostVertical = 25f;
 
-    float jumpForce = 1000f;
-    public float movementSpeed = 10f;
+    public float jumpForce = 50f;
+    public float movementSpeed = 500f;
 
-    public Vector3 boostVelocity;
-    public Vector3 jumpingVelocity;
+    Vector3 boostVelocity;
     Rigidbody rb;
     public Transform dummyBall;
     SphereCollider co;
@@ -27,9 +26,7 @@ public class BallSpecifics : MonoBehaviour,ICharControl
     {
         rb = GetComponent<Rigidbody>();
         co = GetComponent<SphereCollider>();
-        co
 
-        jumpingVelocity = new Vector3(0f, jumpForce, 0f);
         boostVelocity = new Vector3(boostHorizontal, boostVertical, 0f);
 
     }
@@ -40,34 +37,34 @@ public class BallSpecifics : MonoBehaviour,ICharControl
         //Horizontal inputs
         if (Input.GetKey(KeyCode.D))
         {
-            rb.AddForce(dummyBall.right * movementSpeed);
+            rb.AddForce(dummyBall.right * movementSpeed * Time.deltaTime, ForceMode.Acceleration);
         }
         if (Input.GetKey(KeyCode.A))
         {
-            rb.AddForce(-dummyBall.right * movementSpeed);
+            rb.AddForce(-dummyBall.right * movementSpeed * Time.deltaTime, ForceMode.Acceleration);
         }
 
         //Vertical inputs
         if (Input.GetKey(KeyCode.W))
         {
-            rb.AddForce(dummyBall.forward * movementSpeed);
+            rb.AddForce(dummyBall.forward * movementSpeed * Time.deltaTime, ForceMode.Acceleration);
         }
         if (Input.GetKey(KeyCode.S))
         {
-            rb.AddForce(-dummyBall.forward * movementSpeed);
+            rb.AddForce(-dummyBall.forward * movementSpeed * Time.deltaTime, ForceMode.Acceleration);
         }
 
-
+        //Boost input
         if (Input.GetKeyUp(KeyCode.B) && !hasBoosted)
         {
-            boost();
+            Boost();
             hasBoosted = true;
         }
 
         //Jump Input
         if (isGrounded && Input.GetKeyUp(KeyCode.Space))
         {
-            jump();
+            Jump();
             hasBoosted = false;
         }
 
@@ -82,7 +79,7 @@ public class BallSpecifics : MonoBehaviour,ICharControl
         RaycastHit hit;
 
 
-        if (Physics.Raycast(new Vector3(rb.position.x, rb.position.y, rb.position.z) - (new Vector3(0, -1, 0) - new Vector3(transform.up.x, transform.up.y, transform.up.z)), (new Vector3(0, -1, 0) - new Vector3(transform.up.x, transform.up.y, transform.up.z)), 2.2f),//layermask for collision sphere);
+        if (Physics.Raycast(new Vector3(rb.position.x, rb.position.y, rb.position.z) - (new Vector3(0, -1, 0) - new Vector3(transform.up.x, transform.up.y, transform.up.z)), (new Vector3(0, -1, 0) - new Vector3(transform.up.x, transform.up.y, transform.up.z)), 2.2f));//layermask for collision sphere);
         {
             Grounded = true;
            
@@ -92,25 +89,25 @@ public class BallSpecifics : MonoBehaviour,ICharControl
         return Grounded;
     }
 
-    public void boost()
+    public void Boost()
     {
         rb.AddForce(rb.velocity.normalized * boostHorizontal, ForceMode.Impulse);
     }
 
 
-    public void jump()
+    public void Jump()
     {
         print("Jumping!!");
-        rb.AddForce(jumpingVelocity);
+        rb.AddForce(Vector3.up * jumpForce, ForceMode.Impulse);
     }
 
 
-    public MoveCharacterScript daddy()
+    public MoveCharacterScript Daddy()
     {
         return parentScript;
     }
 
-    public void iAm(MoveCharacterScript parent)
+    public void IAm(MoveCharacterScript parent)
     {
         parentScript = parent;
     }

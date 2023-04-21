@@ -34,43 +34,28 @@ public class CharacterSpecifics : MonoBehaviour,ICharControl
     {
        
         //basic code to move character
-        if (Input.GetKey(KeyCode.W)&& !isGrounded)
-        {
-                   
-        }
 
-        else if (Input.GetKey(KeyCode.W) && isGrounded)
+        if (Input.GetKey(KeyCode.W) && isGrounded)
         {
 
             rb.velocity = transform.forward * walkSpeed * Time.deltaTime;
 
         }
-
-        if (Input.GetKey(KeyCode.S) && !isGrounded)
-        {
-
-        }
-
-        else if (Input.GetKey(KeyCode.S) && isGrounded)
+        if (Input.GetKey(KeyCode.S) && isGrounded)
         {
             rb.velocity = -transform.forward * walkBackSpeed * Time.deltaTime;
         }
 
-        if (Input.GetKey(KeyCode.B) && !isGrounded)
+        if (Input.GetKeyUp(KeyCode.B) && !hasBoosted && !isGrounded)
         {
-
-        }
-
-        else if (Input.GetKeyUp(KeyCode.B) && hasBoosted == false && isGrounded == false)
-        {
-            boost();
+            Boost();
             hasBoosted = true;
         }
 
         //Jump Input
         if ((isGrounded) && Input.GetKeyUp(KeyCode.Space))
         {
-            jump();
+            Jump();
             hasBoosted = false;
         }
 
@@ -139,25 +124,25 @@ public class CharacterSpecifics : MonoBehaviour,ICharControl
     }
 
 
-    public void boost()
+    public void Boost()
     {
         rb.AddForce(boostVelocity, ForceMode.Impulse);
     }
 
 
-    public void jump()
+    public void Jump()
     {
         //print("Jumping!!");
         rb.AddForce(jumpingVelocity, ForceMode.Impulse);
     }
 
 
-public MoveCharacterScript daddy()
+public MoveCharacterScript Daddy()
 {
     return parentScript;
 }
 
-public void iAm(MoveCharacterScript parent)
+public void IAm(MoveCharacterScript parent)
 {
     parentScript = parent;
 

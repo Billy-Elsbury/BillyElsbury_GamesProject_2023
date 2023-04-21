@@ -4,9 +4,9 @@ using UnityEngine;
 
 interface ICharControl 
 {
-    void boost();
-    void jump();
+    void Boost();
+    void Jump();
 
-    MoveCharacterScript daddy();
-    void iAm(MoveCharacterScript parent);
+    MoveCharacterScript Daddy();
+    void IAm(MoveCharacterScript parent);
 }

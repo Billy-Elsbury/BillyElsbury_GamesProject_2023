@@ -66,7 +66,7 @@ public class MoveCharacterScript : MonoBehaviour
     {
         rb.GetComponent<ICharControl>();
         ICharControl character = rb.GetComponent<ICharControl>();
-        character.iAm(this);
+        character.IAm(this);
     }
 
     // Update is called once per frame
@@ -79,21 +79,12 @@ public class MoveCharacterScript : MonoBehaviour
         currentRB.AddForce(gravityModifier * 2);
 
 
-       
+
 
         //Input to change between characters
         if (Input.GetKeyUp(KeyCode.C))
         {
-            if (characterSelected == 1)
-            {
-                SwitchCharacter();
-            }
-
-            else if (characterSelected == 2)
-            {
-
-                SwitchCharacter();
-            }
+            SwitchCharacter();
         }
 
         transform.position = currentRB.position;
@@ -143,7 +134,6 @@ public class MoveCharacterScript : MonoBehaviour
                 
                 characterBall.gameObject.SetActive(true);
                 characterPawn.gameObject.SetActive(false);
-                //theCam.follow(theBall.dummyBall);
 
                 // set new character's position to the previous character's position
                 characterBall.transform.position = transform.position;
@@ -163,7 +153,6 @@ public class MoveCharacterScript : MonoBehaviour
 
                 characterPawn.gameObject.SetActive(true);
                 characterBall.gameObject.SetActive(false);
-                //theCam.follow(characterPawn.transform);
 
 
                 characterPawn.transform.position = transform.position;
