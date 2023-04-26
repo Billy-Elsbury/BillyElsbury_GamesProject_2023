@@ -1873,11 +1873,11 @@ MonoBehaviour:
   jumpingVelocity: {x: 0, y: 0, z: 0}
   rb: {fileID: 0}
   playerAnimator: {fileID: 584585917}
-  walkSpeed: 2400
-  walkBackSpeed: 1200
-  slowRunSpeed: 2400
-  runSpeed: 2400
-  rotateSpeed: 90
+  walkSpeed: 600
+  walkBackSpeed: 600
+  slowRunSpeed: 600
+  runSpeed: 600
+  rotateSpeed: 120
   walking: 0
   playerTrans: {fileID: 1670050523}
 --- !u!1 &1702329041
@@ -1929,7 +1929,7 @@ MonoBehaviour:
   characterPawn: {fileID: 1670050518}
   maxSpeed: 100
   isGrounded: 0
-  gravityModifier: {x: 0, y: -2, z: 0}
+  gravityModifier: {x: 0, y: -5, z: 0}
   boostPadVelocity: {x: 0, y: 0, z: 0}
   speedUI: {fileID: 2073229144}
 --- !u!1 &2073229142

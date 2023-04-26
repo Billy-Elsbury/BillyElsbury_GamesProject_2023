@@ -55,7 +55,7 @@ public class BallSpecifics : MonoBehaviour,ICharControl
         }
 
         //Boost input
-        if (Input.GetKeyUp(KeyCode.B) && !hasBoosted)
+        if (Input.GetKeyUp(KeyCode.LeftShift) && !hasBoosted)
         {
             Boost();
             hasBoosted = true;
@@ -73,21 +73,20 @@ public class BallSpecifics : MonoBehaviour,ICharControl
         isGrounded = check_Ground();
     }
 
-    public Boolean check_Ground()
+    public bool check_Ground()
+{
+    bool grounded = false;
+    RaycastHit hit;
+
+    if (Physics.Raycast(rb.position - parentScript.transform.TransformDirection(Vector3.down), parentScript.transform.TransformDirection(Vector3.down), co.radius + 2f)) //layermask for collision sphere
     {
-        Boolean Grounded = false;
-        RaycastHit hit;
-
-
-        if (Physics.Raycast(new Vector3(rb.position.x, rb.position.y, rb.position.z) - (new Vector3(0, -1, 0) - new Vector3(transform.up.x, transform.up.y, transform.up.z)), (new Vector3(0, -1, 0) - new Vector3(transform.up.x, transform.up.y, transform.up.z)), 2.2f));//layermask for collision sphere);
-        {
-            Grounded = true;
-           
-        }
-        
-
-        return Grounded;
+        grounded = true;
     }
+
+    return grounded;
+}
+
+
 
     public void Boost()
     {

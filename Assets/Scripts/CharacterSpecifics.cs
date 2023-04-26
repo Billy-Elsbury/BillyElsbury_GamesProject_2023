@@ -22,6 +22,8 @@ public class CharacterSpecifics : MonoBehaviour,ICharControl
     public bool walking;
     public Transform playerTrans;
 
+
+
     // Start is called before the first frame update
     void Start()
     {
@@ -66,12 +68,15 @@ public class CharacterSpecifics : MonoBehaviour,ICharControl
             playerAnimator.ResetTrigger("Idle");
             walking = true;
         }
+
         if (Input.GetKeyUp(KeyCode.W))
         {
             playerAnimator.ResetTrigger("Slow_Run");
             playerAnimator.SetTrigger("Idle");
             walking = false;
         }
+
+
         if (Input.GetKeyDown(KeyCode.S) && (isGrounded))
         {
             playerAnimator.SetTrigger("Walk_Back");
@@ -82,6 +87,8 @@ public class CharacterSpecifics : MonoBehaviour,ICharControl
             playerAnimator.ResetTrigger("Walk_Back");
             playerAnimator.SetTrigger("Idle");
         }
+
+
         if (Input.GetKey(KeyCode.A))
         {
             playerTrans.Rotate(0, -rotateSpeed * Time.deltaTime, 0);
@@ -90,6 +97,8 @@ public class CharacterSpecifics : MonoBehaviour,ICharControl
         {
             playerTrans.Rotate(0, rotateSpeed * Time.deltaTime, 0);
         }
+
+
         if (walking == true)
         {
             if (Input.GetKeyDown(KeyCode.LeftShift))
@@ -98,7 +107,7 @@ public class CharacterSpecifics : MonoBehaviour,ICharControl
                 playerAnimator.SetTrigger("Fast_Run");
                 playerAnimator.ResetTrigger("Slow_Run");
             }
-            if (Input.GetKeyUp(KeyCode.LeftShift))
+            if (Input.GetKeyUp(KeyCode.LeftShift) || Input.GetKeyUp(KeyCode.W))
             {
                 walkSpeed = slowRunSpeed;
                 playerAnimator.ResetTrigger("Fast_Run");
@@ -113,7 +122,6 @@ public class CharacterSpecifics : MonoBehaviour,ICharControl
     public Boolean check_Ground()
     {
         Boolean Grounded = false;
-         RaycastHit hit;
 
         if (Physics.Raycast(rb.position, rb.transform.up * -1, 1.1f))
         {

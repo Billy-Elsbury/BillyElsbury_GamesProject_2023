@@ -11,10 +11,10 @@ public class MoveCharacterScript : MonoBehaviour
     BallSpecifics theBall;
 
     //variable to control which character is selected
-    int characterSelected = 1;
+    int characterSelected = 2;
 
     private float currentSpeed; //only for UI
-    private float boostForce = 50f;
+    public float boostForce = 50f;
     public float maxSpeed = 200f;
 
     public bool isGrounded;
@@ -22,7 +22,7 @@ public class MoveCharacterScript : MonoBehaviour
     CameraFollow theCam;
 
     private Vector3 lastPosition;
-    public Vector3 gravityModifier = new Vector3(0f, -1.5f, 0f);
+    public Vector3 gravityModifier = new Vector3(0f, -7f, 0f);
     public Vector3 boostPadVelocity;
 
     internal void boost()
@@ -47,10 +47,10 @@ public class MoveCharacterScript : MonoBehaviour
         theCam = FindObjectOfType<CameraFollow>();
         //theCam.follow(characterPawn.transform);
         theBall = characterBall.GetComponent<BallSpecifics>();
-        characterPawn.gameObject.SetActive(true);
-        characterBall.gameObject.SetActive(false);
+        characterPawn.gameObject.SetActive(false);
+        characterBall.gameObject.SetActive(true);
 
-        currentRB = characterPawn.GetComponent<Rigidbody>();
+        currentRB = characterBall.GetComponent<Rigidbody>();
         ballRB = characterBall.GetComponent<Rigidbody>();
         characterRB = characterPawn.GetComponent<Rigidbody>();
 
@@ -79,8 +79,6 @@ public class MoveCharacterScript : MonoBehaviour
         currentRB.AddForce(gravityModifier * 2);
 
 
-
-
         //Input to change between characters
         if (Input.GetKeyUp(KeyCode.C))
         {
@@ -97,21 +95,6 @@ public class MoveCharacterScript : MonoBehaviour
         {
             currentRB.velocity = currentRB.velocity.normalized * maxSpeed;
         }
-    }
-
-    //method to Copy the velocity from one character to the other when switching between them
-    //Based on code from: https://answers.unity.com/questions/1524258/transfer-velocity-from-one-object-to-another.html
-    void CopyVelocity(Rigidbody from, Rigidbody to)
-    {
-        Vector3 vFrom = from.velocity;
-        Vector3 vTo = to.velocity;
-
-        // Move the values you want for each exis
-        vTo.x = vFrom.x;
-        // vTo.y = vFrom.y; // Leaving y-axis as is
-        vTo.z = vFrom.z;
-
-        to.velocity = vTo;
     }
 
     public void SwitchCharacter()
