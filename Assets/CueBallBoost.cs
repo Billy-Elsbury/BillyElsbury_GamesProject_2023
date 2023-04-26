@@ -11,7 +11,7 @@ public class CueBallBoost : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        Invoke("Count", 2);
+        Invoke("Count", 6);
         rb = GetComponent<Rigidbody>();
         
     }

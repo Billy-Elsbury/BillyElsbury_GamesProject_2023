@@ -9,9 +9,14 @@ public class MoveCharacterScript : MonoBehaviour
     //Reference character game objects
     public GameObject characterBall, characterPawn;
     BallSpecifics theBall;
+    CameraFollow theCam;
 
     //variable to control which character is selected
     int characterSelected = 2;
+
+    public Transform respawnPoint; // the respawn point to teleport the player to
+    public float respawnHeight; // the height below which the player will respawn
+
 
     private float currentSpeed; //only for UI
     public float boostForce = 50f;
@@ -19,8 +24,7 @@ public class MoveCharacterScript : MonoBehaviour
 
     public bool isGrounded;
 
-    CameraFollow theCam;
-
+    
     private Vector3 lastPosition;
     public Vector3 gravityModifier = new Vector3(0f, -7f, 0f);
     public Vector3 boostPadVelocity;
@@ -43,6 +47,7 @@ public class MoveCharacterScript : MonoBehaviour
     {
        
         boostPadVelocity = new Vector3(100f, 0f, 0f);
+        respawnHeight = -100f;
 
         theCam = FindObjectOfType<CameraFollow>();
         //theCam.follow(characterPawn.transform);
@@ -86,7 +91,20 @@ public class MoveCharacterScript : MonoBehaviour
         }
 
         transform.position = currentRB.position;
-       
+
+        // If player falls below certain point, respawn.
+        if (transform.position.y < respawnHeight)
+        {
+            Respawn();
+        }
+
+    }
+
+    private void Respawn()
+    {
+        // Teleport player to respawn point.
+        currentRB.position = respawnPoint.position;
+        currentRB.velocity = Vector3.zero;
     }
 
     private void SpeedControl()
