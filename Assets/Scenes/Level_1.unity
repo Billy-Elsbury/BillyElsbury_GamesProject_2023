@@ -5560,7 +5560,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1142825791}
   m_LocalRotation: {x: -0.0064720483, y: 0.031554054, z: 0.71030736, w: 0.7031543}
-  m_LocalPosition: {x: -1.8, y: -1.5999994, z: -70.16}
+  m_LocalPosition: {x: -0.77, y: 11.56, z: -70.16}
   m_LocalScale: {x: 2, y: 2, z: 2}
   m_ConstrainProportionsScale: 1
   m_Children: []
@@ -7600,7 +7600,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1670050518}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -1.74, y: -1.55, z: -70.19}
+  m_LocalPosition: {x: -0.71000004, y: 11.61, z: -70.19}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -7656,7 +7656,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1702329041}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -2.24, y: -0.51, z: -70.19}
+  m_LocalPosition: {x: -1.21, y: 12.65, z: -70.19}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -7681,9 +7681,9 @@ MonoBehaviour:
   respawnPoint: {fileID: 345430438}
   respawnHeight: -10
   boostForce: 300
-  maxSpeed: 120
+  maxSpeed: 150
   isGrounded: 0
-  gravityModifier: {x: 0, y: -15, z: 0}
+  gravityModifier: {x: 0, y: -5, z: 0}
   boostPadVelocity: {x: 0, y: 0, z: 0}
   speedUI: {fileID: 2073229144}
 --- !u!1 &1728422706

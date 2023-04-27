@@ -81,7 +81,7 @@ public class MoveCharacterScript : MonoBehaviour
         SpeedControl();
 
         //code to increase gravity for better feeling physics
-        currentRB.AddForce(gravityModifier * 2);
+        currentRB.AddForce(gravityModifier * 2 * Time.deltaTime);
 
 
         //Input to change between characters
