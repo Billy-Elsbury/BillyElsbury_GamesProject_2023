@@ -76,7 +76,6 @@ public class BallSpecifics : MonoBehaviour,ICharControl
     public bool check_Ground()
 {
     bool grounded = false;
-    RaycastHit hit;
 
     if (Physics.Raycast(rb.position - parentScript.transform.TransformDirection(Vector3.down), parentScript.transform.TransformDirection(Vector3.down), co.radius + 2f)) //layermask for collision sphere
     {

@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
+using System.Linq;
 
 public class MoveCharacterScript : MonoBehaviour
 {
@@ -169,12 +170,36 @@ public class MoveCharacterScript : MonoBehaviour
     }
 
     //Code to display ball's current speed to UI
+
+    // Number of frames to average over
+    public int frameCount = 10;
+
+    //C# Queue class
+    //https://learn.microsoft.com/en-us/dotnet/api/system.collections.generic.queue-1?view=net-8.0
+    private Queue<float> speedSamples = new Queue<float>();
+
+    //Code to display ball's average speed to UI
     void FixedUpdate()
     {
-        currentSpeed = Vector3.Distance(lastPosition, transform.position) * 100f;
+        // Calculate current speed
+        float currentSpeed = Vector3.Distance(lastPosition, transform.position) * 100f;
         lastPosition = transform.position;
-        speedUI.text = currentSpeed.ToString("F0");
+
+        // Add current speed to sample queue
+        speedSamples.Enqueue(currentSpeed);
+
+        // Remove oldest speed sample if queue is too large
+        if (speedSamples.Count > frameCount)
+        {
+            speedSamples.Dequeue();
+        }
+
+        // Calculate average speed over the last `frameCount` frames
+        float averageSpeed = speedSamples.Sum() / speedSamples.Count;
+
+        speedUI.text = averageSpeed.ToString("F0");
     }
+
 
     public void boostPad()
     {

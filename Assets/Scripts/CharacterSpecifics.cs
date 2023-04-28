@@ -8,11 +8,11 @@ public class CharacterSpecifics : MonoBehaviour,ICharControl
     bool isGrounded = false;
     bool hasBoosted = false;
 
-    float boostForce = 20f;
-    float jumpForce = 15f;
+    public float boostForce;
+    public float jumpForce;
 
-    public Vector3 boostVelocity;
-    public Vector3 jumpingVelocity;
+    Vector3 boostVelocity;
+    Vector3 jumpingVelocity;
     public Rigidbody rb;
 
     MoveCharacterScript parentScript;
@@ -35,7 +35,7 @@ public class CharacterSpecifics : MonoBehaviour,ICharControl
     void Update()
     {
        
-        //basic code to move character
+        //Code for Input Management
 
         if (Input.GetKey(KeyCode.W) && isGrounded)
         {
@@ -48,7 +48,8 @@ public class CharacterSpecifics : MonoBehaviour,ICharControl
             rb.velocity = -transform.forward * walkBackSpeed * Time.deltaTime;
         }
 
-        if (Input.GetKeyUp(KeyCode.B) && !hasBoosted && !isGrounded)
+        //Boost Input
+        if (Input.GetKeyUp(KeyCode.LeftShift) && !hasBoosted && !isGrounded)
         {
             Boost();
             hasBoosted = true;
