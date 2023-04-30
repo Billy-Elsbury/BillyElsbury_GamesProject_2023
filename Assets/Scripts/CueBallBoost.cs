@@ -11,14 +11,15 @@ public class CueBallBoost : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        Invoke("Count", 3);
         rb = GetComponent<Rigidbody>();
-        
     }
 
-
-    void Count()
+    // Update is called once per frame
+    void Update()
     {
-        rb.AddForce(boostVelocity * boostForce, ForceMode.Impulse);
+        if (Input.GetKeyDown(KeyCode.P))
+        {
+            rb.AddForce(boostVelocity * boostForce, ForceMode.Impulse);
+        }
     }
 }

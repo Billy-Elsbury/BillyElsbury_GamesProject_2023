@@ -43,7 +43,7 @@ public class BallSpecifics : MonoBehaviour, ICharControl, IRespawnable
 
         respawnHeight = -100f;
         respawnPoint = new GameObject("Respawn Point").transform;
-        respawnPoint.position = new Vector3(-0.7f, -2.6f, -70.1f);
+        respawnPoint.position = new Vector3(0, 0, -70f);
 
     }
 
@@ -133,7 +133,7 @@ public class BallSpecifics : MonoBehaviour, ICharControl, IRespawnable
     }
 
 
-    public MoveCharacterScript Daddy()
+    public MoveCharacterScript Father()
     {
         return parentScript;
     }

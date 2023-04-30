@@ -39,10 +39,6 @@ public class CheckPointScript : MonoBehaviour
             }
         }
 
-        if (gameObject.name == "CheckPoint (1)")
-        {
-            informationUI.text = "Hit the bird for a hint!";
-        }
         if (gameObject.name == "CheckPoint (2)")
         {
             informationUI.text = "CheckPoint!\nNow for something a bit more challenging!";

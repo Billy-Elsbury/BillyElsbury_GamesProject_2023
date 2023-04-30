@@ -51,7 +51,18 @@ public class BirdHintScript : MonoBehaviour
                 {
                     birdTwoSpeechText.text = "Fine! Try changing in middair, that should be obvious though....";
                 }
-                
+                else if (birdTwohitCount == 2)
+                {
+                    birdTwoSpeechText.text = "Still stuck? or have you even tried it yet?.";
+                }
+                else if (birdTwohitCount == 3)
+                {
+                    birdTwoSpeechText.text = "Hold W when going through the pipe, but let go of movement controls while in air!";
+                }
+                else if (birdTwohitCount == 4)
+                {
+                    birdTwoSpeechText.text = "That's all the advice I have, if you're still stuck then I don't know what to say...";
+                }
 
                 birdTwohitCount++;
             }

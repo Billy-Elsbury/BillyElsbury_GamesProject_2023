@@ -25,7 +25,7 @@ public class BoostPadScript : MonoBehaviour
         if (character != null)
         {
             print("BOOSTED!");
-            character.Daddy().boost();
+            character.Father().boost();
         }
     print("Entered Boost!");
 

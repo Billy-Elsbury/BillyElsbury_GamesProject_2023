@@ -7,6 +7,6 @@ interface ICharControl
     void Boost();
     void Jump();
 
-    MoveCharacterScript Daddy();
+    MoveCharacterScript Father();
     void IAm(MoveCharacterScript parent);
 }
