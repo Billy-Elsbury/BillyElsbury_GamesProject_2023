@@ -15,8 +15,6 @@ public class MoveCharacterScript : MonoBehaviour
     //variable to control which character is selected
     int characterSelected = 2;
 
-    public Transform respawnPoint; // the respawn point to teleport the player to
-    public float respawnHeight; // the height below which the player will respawn
 
 
     private float currentSpeed; //only for UI
@@ -48,7 +46,6 @@ public class MoveCharacterScript : MonoBehaviour
     {
        
         boostPadVelocity = new Vector3(100f, 0f, 0f);
-        respawnHeight = -100f;
 
         theCam = FindObjectOfType<CameraFollow>();
         //theCam.follow(characterPawn.transform);
@@ -93,19 +90,6 @@ public class MoveCharacterScript : MonoBehaviour
 
         transform.position = currentRB.position;
 
-        // If player falls below certain point, respawn.
-        if (transform.position.y < respawnHeight)
-        {
-            Respawn();
-        }
-
-    }
-
-    private void Respawn()
-    {
-        // Teleport player to respawn point.
-        currentRB.position = respawnPoint.position;
-        currentRB.velocity = Vector3.zero;
     }
 
     private void SpeedControl()
@@ -121,7 +105,7 @@ public class MoveCharacterScript : MonoBehaviour
         // store the current velocity
         Vector3 velocity = currentRB.velocity;
         // store the current rotation
-        Quaternion rotation = transform.rotation; 
+        Quaternion rotation = currentRB.rotation; 
 
 
         //processing characterSelected variable

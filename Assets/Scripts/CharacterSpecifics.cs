@@ -2,9 +2,18 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using static CheckPointScript;
 
-public class CharacterSpecifics : MonoBehaviour,ICharControl
+public class CharacterSpecifics : MonoBehaviour, ICharControl, IRespawnable
 {
+    private Transform respawnPoint; // the respawn point to teleport the player to
+
+    public Transform RespawnPoint
+    {
+        get { return respawnPoint; }
+        set { respawnPoint = value; }
+    }
+
     bool isGrounded = false;
     bool hasBoosted = false;
 
@@ -22,7 +31,7 @@ public class CharacterSpecifics : MonoBehaviour,ICharControl
     public bool walking;
     public Transform playerTrans;
 
-
+    public float respawnHeight; // the height below which the player will respawn
 
     // Start is called before the first frame update
     void Start()
@@ -30,6 +39,10 @@ public class CharacterSpecifics : MonoBehaviour,ICharControl
         rb = GetComponent<Rigidbody>();
         jumpingVelocity = new Vector3(0f, jumpForce, 0f);
         boostVelocity = new Vector3(0f, boostForce, 0f);
+
+        respawnHeight = -100f;
+        respawnPoint = new GameObject("Respawn Point").transform;
+        respawnPoint.position = new Vector3(-0.7f, -2.6f, -70.1f);
 
     }
     void Update()
@@ -117,7 +130,20 @@ public class CharacterSpecifics : MonoBehaviour,ICharControl
         }
 
         isGrounded = check_Ground();
-        
+
+        // If player falls below certain point, respawn.
+        if (transform.position.y < respawnHeight)
+        {
+            Respawn();
+        }
+
+    }
+
+    private void Respawn()
+    {
+        // Teleport player to respawn point.
+        rb.position = respawnPoint.position;
+        rb.velocity = Vector3.zero;
     }
 
     public Boolean check_Ground()

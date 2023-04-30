@@ -2,6 +2,9 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+
+//Script to act as a version of the ball that doesn't rotate to allow the camera to follow a stable target.
+
 public class dummyBallScript : MonoBehaviour
 {
     // Start is called before the first frame update
